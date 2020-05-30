@@ -4,31 +4,6 @@
 也叫散列表，根据关键码值而直接进行访问的数据结构。（看起来像是python的字典。）
 它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。
 这个映射函数叫做散列函数（Hash function），存放记录的数组叫做哈希表（或散列表）。
-
-class Solution(object):
-    def isAnagram(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
-        if len(s) != len(t):
-            return False
-        dicts = collections.defaultdict(int)
-        for i in range(len(s)):
-            dicts[s[i]] = dicts[s[i]] + 1
-            dicts[t[i]] = dicts[t[i]] - 1
-        for val in dicts.values():
-            if val != 0:
-                return False
-        return True
-
-class Solution:
-    def isAnagram(self, s: str, t: str) -> bool:
-        tracker = collections.defaultdict(int)
-        for x in s: tracker[x] += 1
-        for x in t: tracker[x] -= 1
-        return all(x == 0 for x in tracker.values())
         
 defaultdict还可以被用来计数，将default_factory设为int即可。
 collections.defaultdict(int)
