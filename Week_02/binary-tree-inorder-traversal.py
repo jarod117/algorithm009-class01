@@ -43,4 +43,3 @@ class Solution:
             # print(f"res value: {res}")
             ptr = ptr.right
         return res
-
