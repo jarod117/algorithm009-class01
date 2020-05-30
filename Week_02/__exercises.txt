@@ -1,0 +1,105 @@
+#1. valid-anagram
+# class Solution:
+#     def isAnagram(self, s: str, t: str) -> bool:
+#         if len(s) != len(t):
+#             return False
+#         if sorted(s) != sorted(t):
+#             return False
+#         return True
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
+        dict = collections.defaultdict(int)
+        for i in s:
+            dict[i] += 1
+        for i in t:
+            dict[i] -= 1
+        for val in dict.values():
+            if val:
+                return False
+        return True
+
+
+
+#2. binary-tree-inorder-traversal
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# 递归的方法
+# 定义一个递归函数，从根节点开始，遍历每一个子节点，如果在某一个子节点没有值，返回上一节点的值；
+
+# class Solution:
+#     def inorderTraversal(self, root: TreeNode) -> List[int]:
+#         res = []
+#         def helper(root):
+#             print(f'root value #1: {root}')
+#             if not root:
+#                 print(f'root value #2: {root}')
+#                 return
+#             # res.append(root.val) # 前序遍历时，先返回根节点的值
+#             helper(root.left)
+#             res.append(root.val) # 中序遍历时
+#             print(f'res: {res}')
+#             helper(root.right)
+#             # res.append(root.val) #后序遍历
+#         helper(root)
+#         return res
+
+# 迭代的方法
+# 设置一个变量ptr当作指针，指向根节点，从根节点开始，先遍历所有左子树，将所有左子树，压入栈，直到某个节点不在包含左子树，则将栈中元素依次弹出。然后再将右子树节点值压入栈再弹出；
+
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        stack = []
+        ptr = root
+        while ptr or stack:
+            while ptr:
+                stack.append(ptr)
+                # print(f"stack: {stack}")
+                ptr = ptr.left
+            ptr = stack.pop()
+            res.append(ptr.val)
+            # print(f"res value: {res}")
+            ptr = ptr.right
+        return res
+
+
+
+#3. top-k-frequent-elements
+# python字典（哈希）
+# 1. 统计数组中每个元素出现的次数；
+# 2. 对字典进行排序；
+# 2. 返回出现频率前k高的元素；
+# class Solution:
+#     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+#         dicts = collections.defaultdict(int)
+#         # dicts = collections.Counter(nums)
+#         res = []
+#         for i in nums:
+#             dicts[i] += 1
+#         print(dicts)
+#         dicts_new = sorted(dicts.items(), key = lambda x: x[1], reverse = True)
+#         print(dicts_new)
+#         for key, value in dicts_new:
+#             print(key)
+#             res.append(key)
+
+#         return res[:k]
+
+# python堆实现
+# 1. 统计数组中所有元素的出现次数；
+# 2. 使用堆对数据进行处理，即可得到按从小到大的顺序的数组
+# 3. 返回出现频率前k高的元素；
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        import heapq as hq
+
+        dicts = collections.Counter(nums)
+        return hq.nlargest(k, dicts.keys(), key = dicts.get)
